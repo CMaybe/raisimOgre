@@ -139,27 +139,6 @@ void imguiRenderCallBack() {
     }
   }
 
-  if (ImGui::CollapsingHeader("Contacts")) {
-    ImGui::PushFont(fontMid);
-    ImGui::Text("Solver Iterations: %d", world->getContactSolver().getLoopCounter());
-    ImGui::Text("Total number of contacts: %zu", world->getContactProblem()->size());
-    std::vector<float> error;
-    error.reserve(world->getContactSolver().getLoopCounter());
-
-    for(int i=0; i<world->getContactSolver().getLoopCounter(); i++)
-      error.push_back(float(log(world->getContactSolver().getErrorHistory()[i])/log(10)));
-
-    ImGui::PlotLines("Lines", &error[0], error.size(), 0, "avg 0.0", float(log(world->getContactSolver().getConfig().error_to_terminate)/log(10)), 1.0f, ImVec2(500,300));
-
-    const auto* problem = world->getContactProblem();
-
-    for(int i=0; i<problem->size(); i++) {
-      ImGui::Text("%i: Rank %i", i, problem->at(i).rank);
-    }
-
-    ImGui::PopFont();
-  }
-
   if (ImGui::CollapsingHeader("Video recording")) {
     if(vis->isRecording()) {
       ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.8f, 0.2f, 1.f));
